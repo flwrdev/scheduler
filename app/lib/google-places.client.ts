@@ -186,3 +186,44 @@ export function mapAddressComponents(
     zip: find("postal_code"),
   };
 }
+
+interface MapsGlobal {
+  google: {
+    maps: {
+      importLibrary: (name: string) => Promise<unknown>;
+      SymbolPath: { CIRCLE: number };
+      Map: new (el: HTMLElement, opts: object) => MapHandle;
+      Marker: new (opts: object) => MarkerHandle;
+      LatLngBounds: new () => BoundsHandle;
+    };
+  };
+}
+
+export interface MarkerHandle {
+  setMap: (map: MapHandle | null) => void;
+  addListener: (event: string, handler: () => void) => void;
+}
+
+export interface BoundsHandle {
+  extend: (point: { lat: number; lng: number }) => void;
+}
+
+export interface MapHandle {
+  fitBounds: (bounds: BoundsHandle, padding?: number) => void;
+  setCenter: (point: { lat: number; lng: number }) => void;
+  setZoom: (zoom: number) => void;
+}
+
+/**
+ * Loads the Maps JS SDK (same script as the address search) and returns the
+ * `google.maps` namespace with the map library ready. Rejects when the script
+ * cannot load, so the caller can show a plain message instead of a map.
+ */
+export async function loadMapsNamespace(
+  apiKey: string,
+): Promise<MapsGlobal["google"]["maps"]> {
+  await loadPlacesLibrary(apiKey);
+  const w = window as unknown as MapsGlobal;
+  await w.google.maps.importLibrary("maps");
+  return w.google.maps;
+}

@@ -61,6 +61,7 @@ import { AddTagsModal } from "../components/orders/AddTagsModal";
 import { RemoveTagsModal } from "../components/orders/RemoveTagsModal";
 import { SharedTagsModal } from "../components/orders/SharedTagsModal";
 import { KpiProductsModal } from "../components/orders/KpiProductsModal";
+import { DispatchTracker } from "../components/orders/DispatchTracker";
 import { MarkFulfilledModal } from "../components/orders/MarkFulfilledModal";
 import { RescheduleModal } from "../components/orders/RescheduleModal";
 import { SendEmailModal } from "../components/orders/SendEmailModal";
@@ -222,6 +223,9 @@ const GET_ORDERS_QUERY = `
             company
             provinceCode
             countryCodeV2
+            # Map pin for the dispatch tracker (read only).
+            latitude
+            longitude
           }
           billingAddress {
             name
@@ -2033,6 +2037,13 @@ function Extension() {
             </s-stack>
           </s-section>
         </s-grid>
+
+        {/* ── Dispatch tracker map — sits right above the order table ──────── */}
+        <DispatchTracker
+          orders={displayedOrders}
+          mapsApiKey={loaderData.mapsApiKey}
+          onOpenOrder={(id) => openOrderPanel(id)}
+        />
 
         {/* ── Filters + table ───────────────────────────────────────────────── */}
         <s-stack gap="small-200">

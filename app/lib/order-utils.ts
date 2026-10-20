@@ -44,6 +44,9 @@ export interface ShippingAddress {
   company?: string | null;
   provinceCode?: string | null;
   countryCodeV2?: string | null;
+  // Map pin Shopify worked out for the address; null when it could not.
+  latitude?: number | null;
+  longitude?: number | null;
 }
 
 export interface BillingAddress {
