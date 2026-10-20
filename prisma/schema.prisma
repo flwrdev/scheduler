@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+// Note that some adapters may set a maximum length for the String type by default, please ensure your strings are long
+// enough when changing adapters.
+// See https://www.prisma.io/docs/orm/reference/prisma-schema-reference#string for more information
+datasource db {
+  provider = "postgresql"
+}
+
+model Session {
+  id            String    @id
+  shop          String
+  state         String
+  isOnline      Boolean   @default(false)
+  scope         String?
+  expires       DateTime?
+  accessToken   String
+  userId        BigInt?
+  firstName     String?
+  lastName      String?
+  email         String?
+  accountOwner  Boolean   @default(false)
+  locale        String?
+  collaborator  Boolean?  @default(false)
+  emailVerified Boolean?  @default(false)
+  refreshToken        String?
+  refreshTokenExpires DateTime?
+}
+
+// Customer Email send log (E-5 revisit, ): logs
+// that a merchant sent a customer email via the in-app compose modal, purely
+// for the order panel's DeliveryTimeline display. An app-side log row, never
+// Shopify delivery state, so it does not join the order write-path contract in
+// docs/api.md.
+model EmailSendLog {
+  id             String   @id @default(cuid())
+  shop           String
+  shopifyOrderId String
+  to             String
+  subject        String
+  sentAt         DateTime @default(now())
+
+  @@index([shop, shopifyOrderId])
+}
+
+model DeliveryScheduleConfig {
+  id                String   @id @default(cuid())
+  shop              String   @unique
+  timezone          String
+  cutoffHour        Int
+  prepHours         Int
+  maxDays           Int
+  slotsJson         String
+  disabledDatesJson String
+  disabledSlotsJson String
+  slotCapacityJson  String
+  // Optimistic-concurrency guard for granular section saves (Scheduler V2 §4.4):
+  // writes send the version they loaded; a mismatch means another writer won.
+  version           Int      @default(0)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}

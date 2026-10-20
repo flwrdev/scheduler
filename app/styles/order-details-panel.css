@@ -1,0 +1,304 @@
+/* Styles for the order details panel (odp-) and the notifications bell. They set the layout and
+   the panel frame only. The text, badges and buttons inside are Polaris web components. */
+
+.odp-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 99;
+}
+
+.odp-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(480px, 100vw);
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  box-shadow: -4px 0 32px rgba(0, 0, 0, 0.18);
+  z-index: 100;
+  outline: none;
+  animation: odp-slide-in 0.18s ease-out;
+}
+
+@keyframes odp-slide-in {
+  from {
+    transform: translateX(24px);
+    opacity: 0.6;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .odp-panel {
+    animation: none;
+  }
+}
+
+.odp-head {
+  padding: 16px 20px
+    12px;
+  border-bottom: 1px solid #e1e3e5;
+  flex: 0 0 auto;
+}
+
+.odp-close {
+  appearance: none;
+  border: none;
+  background: transparent;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  font-size: 18px;
+  line-height: 1;
+  color: #6d7175;
+  cursor: pointer;
+}
+
+.odp-close:hover {
+  background: #f6f6f7;
+  color: #202223;
+}
+
+/* The scrolling area of the panel. The sections sit in one column, each as tall as its content.
+   When they are taller than the panel, the area scrolls. */
+.odp-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 16px 20px
+    32px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-auto-rows: max-content;
+  align-content: start;
+  gap: 16px;
+}
+
+/* Label/value rows */
+.odp-dl {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 6px 12px;
+  margin: 0;
+  align-items: baseline;
+}
+
+.odp-dt {
+  margin: 0;
+}
+
+.odp-dd {
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.odp-dd--scrollable {
+  max-height: 96px;
+  overflow-y: auto;
+}
+
+/* Copyable values */
+.odp-copyable {
+  cursor: pointer;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.odp-copyable:hover {
+  background: #f6f6f7;
+}
+
+.odp-copyable--copied {
+  background: #cdfee1;
+}
+
+/* Timeline */
+.odp-timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.odp-timeline-item {
+  position: relative;
+  padding-left: 20px;
+}
+
+.odp-timeline-item::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #c9cccf;
+  z-index: 1;
+}
+
+.odp-timeline-item--current::before {
+  background: #29845a;
+}
+
+.odp-timeline-item--reply::before {
+  background: #005bd3;
+}
+
+.orders-bell {
+  position: relative;
+  display: inline-flex;
+}
+
+.orders-bell-count {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: #c70a24;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 18px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+
+.orders-bell-list {
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.odp-timeline-summary {
+  padding: 8px 12px;
+  border: 1px solid #ebebeb;
+  border-radius: 8px;
+  background: #f7f7f7;
+}
+
+.odp-timeline-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+/* min-width: 0 lets a long subject truncate instead of pushing the time
+   column out of the panel. */
+.odp-timeline-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.odp-timeline-body > * {
+  max-width: 100%;
+}
+
+/* One line of text that ends in "..." when it is too long. */
+.odp-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+/* Rows of the Orders table open the order panel when clicked. */
+s-table-row {
+  cursor: pointer;
+}
+
+.odp-email-text {
+  display: block;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* Connecting rail: runs from this item's dot down through the flex gap to
+   the next item's dot, so the list reads as one continuous timeline. */
+.odp-timeline-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 14px;
+  bottom: calc(-1 * 12px);
+  width: 2px;
+  background: #ebebeb;
+}
+
+/* Timestamp column: kept apart from the event copy so it never wraps or
+   gets swallowed into the sentence next to it. */
+.odp-timeline-time {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Items */
+.odp-item-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.odp-item-row:last-of-type {
+  border-bottom: none;
+}
+
+.odp-item-thumb {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #e1e3e5;
+  flex: 0 0 auto;
+}
+
+.odp-item-thumb-placeholder {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid #e1e3e5;
+  background: #f7f7f7;
+  flex: 0 0 auto;
+}
+
+.odp-item-info {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.odp-totals {
+  margin-top: 12px;
+  border-top: 1px solid #e1e3e5;
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.odp-totals-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}

@@ -1,0 +1,19 @@
+api_version = "2026-04"
+uid = "c2ce32a3-7dc8-07c9-0118-d72ac4958696e4e96986"
+
+[[extensions]]
+name = "Account Reschedule Delivery"
+handle = "delivery-reschedule-customer"
+type = "ui_extension"
+
+[[extensions.targeting]]
+module = "./src/order-action-menu-item.tsx"
+target = "customer-account.order.action.menu-item.render"
+
+[[extensions.targeting]]
+module = "./src/order-action-modal.tsx"
+target = "customer-account.order.action.render"
+
+[extensions.capabilities]
+api_access = true
+network_access = true

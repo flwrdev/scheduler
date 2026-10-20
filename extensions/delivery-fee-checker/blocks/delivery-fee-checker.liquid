@@ -1,0 +1,90 @@
+{%- comment -%}
+  Delivery fee checker — one field, type a city / barangay / ZIP, get the fee.
+
+  Backed by the SAME lookup FlowerBot uses (checkDeliveryCoverage), reached
+  through the App Proxy route /apps/schedule-rules/coverage
+  (app/routes/apps.schedule-rules.coverage.ts). Storefront quote and chat
+  quote therefore cannot drift apart.
+
+  Section-targeted, so the merchant drags it onto any page (the live
+  "Delivery Areas" page, handle delivery-areas) from the theme editor.
+
+  Lives in the delivery-fee-checker extension, the app's single theme extension, because
+  Shopify allows only ONE theme extension per app — a second one is rejected
+  at release with "maximum number of 1 module allowed for this extension
+  type".
+{%- endcomment -%}
+
+<div
+  class="fc-fee-checker"
+  data-fc-fee-checker
+  data-accent="{{ block.settings.accent_color }}"
+  data-placeholder="{{ block.settings.placeholder | escape }}"
+  data-disclaimer="{{ block.settings.disclaimer | escape }}"
+>
+  {%- if block.settings.heading != blank -%}
+    <h2 class="fc-fee-checker__heading">{{ block.settings.heading | escape }}</h2>
+  {%- endif -%}
+  {%- if block.settings.subheading != blank -%}
+    <p class="fc-fee-checker__subheading">{{ block.settings.subheading | escape }}</p>
+  {%- endif -%}
+
+  <div class="fc-fee-checker__field">
+    <input
+      type="text"
+      class="fc-fee-checker__input"
+      data-fc-fee-input
+      placeholder="{{ block.settings.placeholder | escape }}"
+      aria-label="{{ block.settings.placeholder | escape }}"
+      autocomplete="off"
+      enterkeyhint="search"
+      maxlength="60"
+    >
+    <span class="fc-fee-checker__spinner" data-fc-fee-spinner hidden></span>
+  </div>
+
+  <div class="fc-fee-checker__result" data-fc-fee-result role="status" aria-live="polite"></div>
+</div>
+
+{{ 'delivery-fee-checker.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'delivery-fee-checker.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "Delivery Fee Checker",
+  "target": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Check your delivery fee"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Type your city, barangay, or ZIP code."
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Field placeholder",
+      "default": "e.g. Makati, BGC, or 1200"
+    },
+    {
+      "type": "text",
+      "id": "disclaimer",
+      "label": "Estimate disclaimer",
+      "info": "Shown under every quote. Keep it — the estimate has no surge model, so the courier's rush-hour / bad-weather / peak-season surcharge is invisible to it. The exact fee is calculated at checkout.",
+      "default": "Tantiya lang po. Maaaring tumaas kapag rush hour, masamang panahon, o peak season — ang eksaktong delivery fee ay makikita sa checkout."
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#9a6a60"
+    }
+  ]
+}
+{% endschema %}

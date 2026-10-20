@@ -1,0 +1,59 @@
+{
+  "name": "delivery-scheduler",
+  "private": false,
+  "scripts": {
+    "build": "react-router build",
+    "dev": "shopify app dev --config shopify.app.production.toml",
+    "deploy": "echo Use npm run deploy:prod -- a bare deploy is disabled to prevent hitting the wrong app && exit 1",
+    "deploy:prod": "shopify app deploy --config shopify.app.production.toml --allow-updates",
+    "start": "react-router-serve ./build/server/index.js",
+    "setup": "prisma generate && prisma migrate deploy",
+    "test": "vitest run",
+    "test:extensions": "vitest run --config vitest.extensions.config.ts",
+    "typecheck": "react-router typegen && tsc --noEmit && tsc -p tsconfig.extension-tests.json --noEmit"
+  },
+  "type": "module",
+  "workspaces": [
+    "extensions/*"
+  ],
+  "engines": {
+    "node": ">=22.12"
+  },
+  "overrides": {
+    "lodash": "4.18.1"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.10.0",
+    "@prisma/client": "^7.10.0",
+    "@react-router/node": "^7.12.0",
+    "@react-router/serve": "^7.12.0",
+    "@shopify/app-bridge-react": "^4.2.4",
+    "@shopify/shopify-api": "^14.0.1",
+    "@shopify/shopify-app-react-router": "^2.1.0",
+    "dotenv": "^16.6.1",
+    "imapflow": "^2.1.0",
+    "isbot": "^5.1.31",
+    "mailparser": "^3.9.29",
+    "nodemailer": "^9.0.3",
+    "prisma": "^7.10.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router": "^7.12.0"
+  },
+  "devDependencies": {
+    "@react-router/dev": "^7.12.0",
+    "@react-router/fs-routes": "^7.12.0",
+    "@shopify/polaris-types": "^2.0.0-rc.3",
+    "@shopify/ui-extensions-tester": "2026.4.4",
+    "@types/mailparser": "^3.4.6",
+    "@types/node": "^22.19.19",
+    "@types/nodemailer": "^8.0.1",
+    "@types/react": "^18.3.25",
+    "@types/react-dom": "^18.3.7",
+    "jsdom": "^29.1.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.6",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^4.1.8"
+  }
+}

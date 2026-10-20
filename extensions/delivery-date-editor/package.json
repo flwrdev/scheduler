@@ -1,0 +1,9 @@
+{
+  "name": "delivery-date-editor",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "@shopify/ui-extensions": "2026.4.x"
+  }
+}

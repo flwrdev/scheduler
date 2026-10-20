@@ -1,0 +1,13 @@
+api_version = "2026-04"
+uid = "015e9fe7-3635-f0e2-dee8-7d570b2151d4ce978140"
+[[extensions]]
+name = "Admin Reschedule Delivery"
+handle = "delivery-reschedule-action"
+type = "ui_extension"
+
+[extensions.capabilities]
+network_access = true
+
+[[extensions.targeting]]
+module = "./src/OrderActionExtension.jsx"
+target = "admin.order-details.action.render"

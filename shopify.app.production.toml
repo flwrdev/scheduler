@@ -1,0 +1,78 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "192d50677bb4239697e25fd7ad097c50"
+name = "delivery-scheduler"
+application_url = "https://delivery-scheduler-1030649952056.us-central1.run.app"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = false
+
+[webhooks]
+api_version = "2026-04"
+
+  [[webhooks.subscriptions]]
+  topics = [ "app/uninstalled" ]
+  uri = "/webhooks/app/uninstalled"
+
+  [[webhooks.subscriptions]]
+  topics = [ "app/scopes_update" ]
+  uri = "/webhooks/app/scopes_update"
+
+  [[webhooks.subscriptions]]
+  topics = [ "orders/create" ]
+  uri = "/webhooks/orders/create"
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes="read_orders,write_orders,read_customers,read_metaobjects,write_metaobjects,write_metaobject_definitions,read_fulfillments,write_fulfillments,read_merchant_managed_fulfillment_orders,write_merchant_managed_fulfillment_orders,write_files,read_files,read_draft_orders,write_draft_orders"
+        
+
+
+[auth]
+redirect_urls = [ "https://delivery-scheduler-1030649952056.us-central1.run.app/auth/callback", "https://delivery-scheduler-1030649952056.us-central1.run.app/auth/shopify/callback", "https://delivery-scheduler-1030649952056.us-central1.run.app/api/auth/callback" ]
+
+[app_proxy]
+url = "https://delivery-scheduler-1030649952056.us-central1.run.app/apps/schedule-rules"
+subpath = "schedule-rules"
+prefix = "apps"
+
+[product.metafields.app.demo_info]
+type = "single_line_text_field"
+name = "Demo Source Info"
+description = "Tracks products created by the Shopify app template for development"
+
+  [product.metafields.app.demo_info.access]
+  admin = "merchant_read_write"
+
+[metaobjects.app.example]
+name = "Example"
+description = "An example metaobject definition created by this template"
+
+  [metaobjects.app.example.access]
+  admin = "merchant_read_write"
+
+[metaobjects.app.example.fields.title]
+name = "Title"
+type = "single_line_text_field"
+required = true
+
+[metaobjects.app.example.fields.description]
+name = "Description"
+type = "multi_line_text_field"
+
+[order.metafields.app.reschedule_requested_at]
+type = "date_time"
+name = "Reschedule Requested At"
+
+  [order.metafields.app.reschedule_requested_at.access]
+  admin = "merchant_read_write"
+
+[order.metafields.app.reschedule_status]
+type = "single_line_text_field"
+name = "Reschedule Status"
+
+  [order.metafields.app.reschedule_status.access]
+  admin = "merchant_read_write"
+
+

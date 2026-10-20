@@ -1,0 +1,14 @@
+{
+  // Test files are excluded from the root tsconfig (they run via Vitest/esbuild,
+  // not `tsc`). Without a tsconfig of their own, the VS Code TS language server
+  // falls back to an inferred project with default compilerOptions — no
+  // @types/node — and reports phantom errors like TS2591 on `node:crypto`.
+  // This config gives the editor the same options as the app (via extends),
+  // so IntelliSense and diagnostics for tests match reality. It is NOT used by
+  // `npm run typecheck` (that still targets the root tsconfig only).
+  "extends": "../tsconfig.json",
+  // The base config excludes `test/**`; clear that here so these files are
+  // actually part of THIS project (otherwise: TS18003 "No inputs were found").
+  "exclude": [],
+  "include": ["**/*.ts", "**/*.tsx"]
+}

@@ -1,0 +1,28 @@
+# Learn more about configuring your checkout UI extension:
+# https://shopify.dev/docs/api/checkout-ui-extensions/latest/configuration
+
+# The version of APIs your extension will receive. Learn more:
+# https://shopify.dev/docs/api/usage/versioning
+api_version = "2026-04"
+
+[[extensions]]
+name = "Thank You Delivery Schedule"
+handle = "delivery-thank-you"
+type = "ui_extension"
+uid = "44f2b914-bc99-5eb8-57fb-7f587681a1863e539d62"
+
+# Controls where in Shopify your extension will be injected,
+# and the file that contains your extension’s source code. Learn more:
+# https://shopify.dev/docs/api/checkout-ui-extensions/latest/extension-targets-overview
+
+[[extensions.targeting]]
+module = "./src/Checkout.jsx"
+target = "purchase.thank-you.block.render"
+
+[[extensions.metafields]]
+namespace = "custom"
+key = "date"
+
+[[extensions.metafields]]
+namespace = "custom"
+key = "time_slot"

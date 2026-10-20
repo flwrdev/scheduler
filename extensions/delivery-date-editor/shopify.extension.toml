@@ -1,0 +1,31 @@
+api_version = "2026-04"
+uid = "835f2e3f-9c5f-f6a3-2f51-170b071d1779e7bd0a34"
+
+[[extensions]]
+name = "Order Status Delivery Schedule"
+handle = "delivery-date-editor"
+type = "ui_extension"
+
+[[extensions.targeting]]
+module = "./src/index.tsx"
+target = "customer-account.order-status.block.render"
+
+[extensions.capabilities]
+api_access = true
+network_access = true
+
+[[extensions.metafields]]
+namespace = "$app"
+key = "reschedule_status"
+
+[[extensions.metafields]]
+namespace = "$app"
+key = "reschedule_requested_at"
+
+[[extensions.metafields]]
+namespace = "custom"
+key = "date"
+
+[[extensions.metafields]]
+namespace = "custom"
+key = "time_slot"
